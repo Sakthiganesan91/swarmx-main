@@ -16,6 +16,101 @@ const {
   sheduleInterview,
 } = require("../helpers/emailTemplates");
 
+const azure = require("../config/azureStorage");
+
+const {
+  BlobServiceClient,
+  StorageSharedKeyCredential,
+  generateBlobSASQueryParameters,
+} = require("@azure/storage-blob");
+
+const accountName = process.env.AZURE_STORAGE_ACCOUNT_NAME;
+const accountKey = process.env.AZURE_STORAGE_ACCOUNT_KEY;
+
+const sharedKeyCredential = new StorageSharedKeyCredential(
+  accountName,
+  accountKey
+);
+const blobServiceClient = new BlobServiceClient(
+  `https://${accountName}.blob.core.windows.net`,
+  sharedKeyCredential
+);
+
+const getBlobUrlWithSasToken = async (containerName, blobName) => {
+  const containerClient = blobServiceClient.getContainerClient(containerName);
+
+  const sasToken = generateBlobSASQueryParameters(
+    {
+      containerName,
+      blobName,
+      permissions: "r",
+      expiresOn: new Date(new Date().valueOf() + 3600 * 1000), // 1 hour expiry
+    },
+    sharedKeyCredential
+  ).toString();
+
+  const blobUrl = `${containerClient.url}/${blobName}?${sasToken}`;
+  return blobUrl;
+};
+
+function extractContainerAndBlobName(blobUrl) {
+  try {
+    // Create a URL object
+    const url = new URL(blobUrl);
+
+    // Extract the path part of the URL (after the domain)
+    const path = url.pathname; // e.g., "/container-name/blob-name.jpg"
+
+    // Split the path to get container name and blob name
+    const parts = path.split("/").filter(Boolean); // Removes empty parts
+    if (parts.length < 2) {
+      throw new Error("Invalid Blob URL: Missing container or blob name.");
+    }
+
+    const containerName = parts[0]; // First part is the container name
+    const blobName = parts.slice(1).join("/"); // Rest is the blob name
+
+    return { containerName, blobName };
+  } catch (error) {
+    console.error("Error extracting container and blob name:", error);
+    return null;
+  }
+}
+
+const getCandidateCV = async (req, res) => {
+  const _id = req.params.candidateId;
+  console.log(_id);
+  if (!_id) throw new Error("Candidate id not valid");
+
+  try {
+    const candidate = await Candidate.findOne({ _id });
+
+    const cvUrl = candidate.cvUrl;
+    console.log(cvUrl);
+    if (cvUrl) {
+      const { containerName, blobName } = extractContainerAndBlobName(cvUrl);
+
+      const candidateResumeUrl = await getBlobUrlWithSasToken(
+        containerName,
+        blobName
+      );
+
+      const extension = candidateResumeUrl.split(".").pop().split("?")[0];
+      console.log(extension);
+      res.status(201).json({
+        candidateResumeUrl,
+        extension,
+      });
+    } else {
+      throw new Error("CV Not found");
+    }
+  } catch (error) {
+    res.status(500).json({
+      error,
+    });
+  }
+};
+
 const generatePasswordForCandidate = async (candidateId, jobId, round) => {
   try {
     const password = otpGenerator.generate(8, {
@@ -589,5 +684,7 @@ routes.put("/modify-candidates", modifyCandidates);
 routes.put("/change-candidate/:id", modifyCandidate);
 
 routes.get("/get-candidates-count/:jobId", getCandidatesCount);
+
+routes.get("/get-candidate-cv/:candidateId", getCandidateCV);
 
 module.exports = routes;

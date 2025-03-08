@@ -1,12 +1,13 @@
 const express = require("express");
 const routes = express.Router();
-const codingQuestionModel = require("../models/CodingQuestionsModel");
+const codingQuestionModel = require("../models/CodingQuestionsModel")
 const InterviewRound = require("../models/interviewRoundModel");
 
 const OpenAI = require("openai");
 const CodingQuestionsModel = require("../models/CodingQuestionsModel");
 const openai = new OpenAI({
-  apiKey: process.env.OPEN_AI_KEY,
+  apiKey:
+    "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",
 });
 
 const getCodingQuestion = async (req, res) => {
@@ -59,10 +60,12 @@ const getCodingQuestion = async (req, res) => {
   }
 };
 
+
 const generateCodingQuestions = async (req, res) => {
   const codingRoundQuestions = req.body.count;
   const codingRoundDifficulty = req.body.difficulty;
   try {
+
     const chatCompletion = await openai.chat.completions.create({
       messages: [
         {
@@ -99,9 +102,7 @@ const generateCodingQuestions = async (req, res) => {
 
     // storing
     re.map(async (question) => {
-      const codingQuestion = await codingQuestionModel.findOne({
-        title: question.question_title,
-      });
+      const codingQuestion = await codingQuestionModel.findOne({ title: question.question_title })
       if (codingQuestion) {
         return;
       }
@@ -111,12 +112,13 @@ const generateCodingQuestions = async (req, res) => {
           title: question.question_title,
           description: question.question_description,
           difficulty: question.difficulty.toLowerCase(),
-          testcase: question.testcases,
-        });
-      } catch (error) {
-        console.log(error);
+          testcase: question.testcases
+        })
       }
-    });
+      catch (error) {
+        console.log(error)
+      }
+    })
 
     res.json({
       questions: re,

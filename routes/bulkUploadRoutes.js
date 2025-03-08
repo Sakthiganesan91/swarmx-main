@@ -3,7 +3,7 @@ const bulkUploadController = require("../controller/bulkUploadController");
 const requireAuth = require("../middleware/authMiddleware");
 const routes = express.Router();
 
-routes.use(requireAuth);
+//routes.use(requireAuth);
 
 const multer = require("multer");
 const storage = multer.memoryStorage();

@@ -16,6 +16,7 @@ const candidateSchema = new Schema(
     reason: Object,
     userId: String,
     authentication: Object,
+    cvUrl: String,
   },
   { timestamps: true }
 );

@@ -1,13 +1,14 @@
 const express = require("express");
 const OpenAI = require("openai");
 const openai = new OpenAI({
-  apiKey: process.env.OPEN_AI_KEY,
+  apiKey:
+    "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",
 });
 const jobController = require("../controller/jobController");
 const requireAuth = require("../middleware/authMiddleware");
 const routes = express.Router();
 
-routes.use(requireAuth);
+//routes.use(requireAuth);
 
 routes.get("/get-job", jobController.getJob);
 routes.post("/post_job", jobController.addJob);

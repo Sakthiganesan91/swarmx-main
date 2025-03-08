@@ -33,6 +33,37 @@ const otpEmail = (email, username, otp) => {
   };
 };
 
+const otpEmailResetPassword = (email, otp) => {
+  return {
+    to: email,
+    from: sender,
+    subject: "Reset Password OTP",
+    html: ` <div
+            style="
+            border-radius: 10px;
+            
+            padding: 16px;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            background-image: linear-gradient(
+                to right bottom,
+                rgb(1, 175, 255),
+                white,
+                rgba(2, 133, 255, 0.788)
+            );
+            "
+        >
+            <h1 style="text-align: center; color: rgba(2, 133, 255, 0.788)">
+            Reset Password
+            </h1>
+            <p style="font-style: italic">
+            Hey user , Below is the OTP for reseting password</p>
+            <hr style="color: white" />
+            <p>OTP for reseting your password ${otp}</p>
+            <p>Otp will be valid for 2 minutes</p>
+            
+        </div>`,
+  };
+};
 const sheduleInterview = (
   candidateEmail,
   candidateName,
@@ -68,7 +99,7 @@ const sheduleInterview = (
                     Attend this within 2 days before the link expires
                     </p>
                     <hr style="color: white" />
-                   http://localhost:3002/?jobId=${jobId}&candidateId=${candidateId}
+                   ${process.env.INTERVIEW_URL}/?jobId=${jobId}&candidateId=${candidateId}
                    <p>Use this password to attend the interview: ${password}</p>
                     <p>All the best</p>
                     <p>Best Regards, </p>
@@ -113,7 +144,7 @@ const scheduleCoding = (
                     Attend this within 2 days before the link expires
                     </p>
                     <hr style="color: white" />
-                   http://localhost:5000/?jobId=${jobId}&candidateId=${candidateId}
+                   ${process.env.CODING_URL}/?jobId=${jobId}&candidateId=${candidateId}
                    <p>Use this password to attend the coding interview: ${password}</p>
                     <p>All the best</p>
                     <p>Best Regards, </p>
@@ -148,7 +179,7 @@ const sendSlotScheduleMailToCandidate = (email, candidateId) => {
         </p>
         <hr style="color: white" />
        
-        <a href=http://localhost:3000/chat?candidateId=${candidateId}>Link</a>
+        <a href=${process.env.APPLICATION_URL}/chat?candidateId=${candidateId}>Link</a>
  
        
     </div>`,
@@ -191,9 +222,9 @@ const sendConfirmSlotScheduleMailToInterviewer = (
             <p>Meeting Link: ${meetingLink}</p>
             <p>
             To Reschedule or Decline, Check the link below.
-            <a href="http://localhost:3000/interviewer-confirmation?candidateId=${encodeURIComponent(
-              candidateId
-            )}&email=${encodeURIComponent(email)}">Link</a>
+            <a href="${process.env.APPLICATION_URL}/interviewer-confirmation?candidateId=${encodeURIComponent(
+      candidateId
+    )}&email=${encodeURIComponent(email)}">Link</a>
             </p>
             <p>Use this password to enter: ${password}</p>
             <hr style="color: white" />
@@ -229,7 +260,7 @@ const sendNotifyDeclinedMail = (email, candidateId) => {
         </p>
         <hr style="color: white" />
        
-        <a href=http://localhost:3000/chat?candidateId=${candidateId}>Link</a>
+        <a href=${process.env.APPLICATION_URL}/chat?candidateId=${candidateId}>Link</a>
  
        
     </div>`,
@@ -274,7 +305,7 @@ const rescheduleEmailByCandidate = (
             </p>
             <hr style="color: white" />
            
-            <a href=http://localhost:3000/chat?candidateId=${candidateId}>Link</a>
+            <a href=${process.env.APPLICATION_URL}/chat?candidateId=${candidateId}>Link</a>
      
             <hr style="color: white" />
            <p>THANK YOU!!</p>
@@ -291,4 +322,5 @@ module.exports = {
   sendConfirmSlotScheduleMailToInterviewer,
   sendNotifyDeclinedMail,
   rescheduleEmailByCandidate,
+  otpEmailResetPassword,
 };
