@@ -8,7 +8,7 @@ const jobController = require("../controller/jobController");
 const requireAuth = require("../middleware/authMiddleware");
 const routes = express.Router();
 
-//routes.use(requireAuth);
+routes.use(requireAuth);
 
 routes.get("/get-job", jobController.getJob);
 routes.post("/post_job", jobController.addJob);
