@@ -104,7 +104,7 @@ const getUserById = async (req, res) => {
 };
 
 const updateuser = async (req, res) => {
-  const userId = req.user._id;
+  //const userId = req.user._id;
   const _id = req.params.id;
 
   const {
@@ -208,7 +208,7 @@ const updateuser = async (req, res) => {
   }
 };
 const updateusersociallink = async (req, res) => {
-  const userId = req.user._id;
+  //const userId = req.user._id;
   const _id = req.params.id;
 
   const { data: socialLinks } = req.body;
