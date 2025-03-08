@@ -1,27 +1,26 @@
 {
   "files": {
-    "main.css": "/static/css/main.0a5fc128.css",
-    "main.js": "/static/js/main.6522e073.js",
+    "main.css": "/static/css/main.9d2f2632.css",
+    "main.js": "/static/js/main.53bac54c.js",
     "static/js/738.458a284e.chunk.js": "/static/js/738.458a284e.chunk.js",
     "static/js/653.4512614e.chunk.js": "/static/js/653.4512614e.chunk.js",
     "static/js/923.51f24648.chunk.js": "/static/js/923.51f24648.chunk.js",
     "static/js/627.6e97d686.chunk.js": "/static/js/627.6e97d686.chunk.js",
     "static/media/InterviewBG.png": "/static/media/InterviewBG.5896bb93aa62842d8309.png",
     "static/media/InterviewBG1.png": "/static/media/InterviewBG1.8e432b02f0ee004bc16a.png",
-    "static/media/master-card.png": "/static/media/master-card.f1daee65a901b85dd05c.png",
     "static/media/rectangle.png": "/static/media/rectangle.bce3c7260a7db1d405d0.png",
     "static/media/logo.png": "/static/media/logo.fe5bcd44b09166301e8d.png",
     "static/media/logo1.png": "/static/media/logo1.9e10d7f0aa3d70814005.png",
     "index.html": "/index.html",
-    "main.0a5fc128.css.map": "/static/css/main.0a5fc128.css.map",
-    "main.6522e073.js.map": "/static/js/main.6522e073.js.map",
+    "main.9d2f2632.css.map": "/static/css/main.9d2f2632.css.map",
+    "main.53bac54c.js.map": "/static/js/main.53bac54c.js.map",
     "738.458a284e.chunk.js.map": "/static/js/738.458a284e.chunk.js.map",
     "653.4512614e.chunk.js.map": "/static/js/653.4512614e.chunk.js.map",
     "923.51f24648.chunk.js.map": "/static/js/923.51f24648.chunk.js.map",
     "627.6e97d686.chunk.js.map": "/static/js/627.6e97d686.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0a5fc128.css",
-    "static/js/main.6522e073.js"
+    "static/css/main.9d2f2632.css",
+    "static/js/main.53bac54c.js"
   ]
 }
