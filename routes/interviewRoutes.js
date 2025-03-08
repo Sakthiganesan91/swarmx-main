@@ -1,7 +1,6 @@
 const OpenAI = require("openai");
 const openai = new OpenAI({
-  apiKey:
-    "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",
+  apiKey: process.env.OPEN_AI_KEY,
 });
 const express = require("express");
 const otpGenerator = require("otp-generator");
@@ -54,8 +53,8 @@ routes.post("/coding/result/:id", async (req, res) => {
           content: `You are a helpful scoring assistant.
               You are given a set of questions, their respective code, and test cases. 
               This is the answer array: ${JSON.stringify(
-            answers
-          )}, which contains objects representing each question and its corresponding answer.
+                answers
+              )}, which contains objects representing each question and its corresponding answer.
     
               Your task is to evaluate all the answers, analyze the candidate's coding skills, and consolidate the evaluation into a single JSON object.
     
@@ -91,8 +90,7 @@ routes.post("/coding/result/:id", async (req, res) => {
       model: "gpt-4o",
     });
 
-
-    console.log(chatCompletion.choices[0].message.content)
+    console.log(chatCompletion.choices[0].message.content);
 
     const cleanedJsonString = chatCompletion.choices[0].message.content
       .replace(/```json\n/, "")
