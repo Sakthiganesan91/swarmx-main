@@ -1,8 +1,7 @@
 const express = require("express");
 const OpenAI = require("openai");
 const openai = new OpenAI({
-  apiKey:
-    "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",
+  apiKey: process.env.OPEN_AI_KEY,
 });
 const jobController = require("../controller/jobController");
 const requireAuth = require("../middleware/authMiddleware");
