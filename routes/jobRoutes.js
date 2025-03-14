@@ -1,7 +1,8 @@
 const express = require("express");
 const OpenAI = require("openai");
 const openai = new OpenAI({
-  apiKey: process.env.OPEN_AI_KEY,
+  apiKey:
+    process.env.OPEN_API_KEY,
 });
 const jobController = require("../controller/jobController");
 const requireAuth = require("../middleware/authMiddleware");

@@ -1,3 +1,4 @@
+require("dotenv").config();
 const sender = "support@swarmx.ai";
 
 const otpEmail = (email, username, otp) => {
@@ -314,6 +315,39 @@ const rescheduleEmailByCandidate = (
   };
 };
 
+
+const sendSubUserCredentials = (email, password, role) => {
+  return {
+    to: email,
+    from: sender,
+    subject: "Login Credentials",
+    html: ` <div
+        style="
+        border-radius: 10px;
+       
+        padding: 16px;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        background-image: linear-gradient(
+            to right bottom,
+            rgb(1, 175, 255),
+            white,
+            rgba(2, 133, 255, 0.788)
+        );
+        "
+    >       
+        <p style="font-style: italic">
+        These are your login credentials.
+        </p>
+        <hr style="color: white" />
+        <p>Email: ${email}</p>
+         <p> Password : ${password}</p>
+         <p>Role: ${role}</p>
+          <p>Please change your password after login</p>
+    </div>`,
+  };
+};
+
+
 module.exports = {
   otpEmail,
   sheduleInterview,
@@ -323,4 +357,5 @@ module.exports = {
   sendNotifyDeclinedMail,
   rescheduleEmailByCandidate,
   otpEmailResetPassword,
+  sendSubUserCredentials,
 };

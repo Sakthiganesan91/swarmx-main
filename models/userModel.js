@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "Employer",
     },
+
     email: {
       type: String,
       required: true,

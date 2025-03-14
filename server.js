@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const http = require("http");
-
+const { Server } = require("socket.io");
 const path = require("path");
 const companyRoutes = require("./routes/CompanyRoutes");
 const authRoutes = require("./routes/authRoutes");
@@ -23,17 +23,46 @@ const interviewRoutes = require("./routes/interviewRoutes");
 const schedulerRoutes = require("./routes/schedulerRoutes");
 const reschedulerRoutes = require("./routes/reschedulerRoutes");
 const codingquestionRoutes = require("./routes/codingQuestionRoutes");
-const { transport, mailOptions } = require("./config/mailerTransport");
+const { transport } = require("./config/mailerTransport");
 const feedbackRoutes = require("./routes/feedback.routes");
+const rbacRoutes = require("./routes/rbacRoutes");
 
 // initialize
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
 
 app.use(cors({}));
 
+// app.use("/public", express.static("public"));
+// app.use(express.static("files"));
 app.use(express.static(path.join(__dirname, "build")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Web socket
+io.on("connection", (socket) => {
+  console.log("a user connected");
+
+  socket.on("joinRoom", (roomId) => {
+    socket.join(roomId);
+  });
+
+  socket.on("message", (msg) => {
+    const roomId = Array.from(socket.rooms)[1];
+
+    io.to(roomId).emit("message", msg);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+});
 
 app.use(codingquestionRoutes);
 app.use(schedulerRoutes);
@@ -55,6 +84,7 @@ app.use("/source", sourceRoutes);
 app.use("/candidate", candidateRoutes);
 app.use(interviewRoundRoutes);
 app.use("/feedback", feedbackRoutes);
+app.use("/rbac", rbacRoutes);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
@@ -62,4 +92,4 @@ app.get("*", (req, res) => {
 
 mongoose
   .connect(process.env.MONGOOSE_CONNECTION_URI)
-  .then(app.listen(process.env.PORT || 8080));
+  .then(server.listen(process.env.PORT || 8080));

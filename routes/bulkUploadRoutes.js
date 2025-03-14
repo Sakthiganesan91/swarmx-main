@@ -13,7 +13,7 @@ const upload = multer({
     if (
       file.mimetype == "application/msword" ||
       file.mimetype ==
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
       file.mimetype == "application/pdf"
     ) {
       cb(null, true);
@@ -32,4 +32,4 @@ routes.post(
   bulkUploadController.addFiles
 );
 
-module.exports = routes;
+module.exports = routes; 

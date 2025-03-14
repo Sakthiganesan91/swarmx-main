@@ -525,6 +525,19 @@ const sheduleInterviewRoute = async (req, res) => {
       }
     }
 
+    if (interviewRound.selectedInterviewRound === "others") {
+      const candidate = await Candidate.findOne({ _id });
+      candidate.stage = "hr";
+      candidate.status = "shortlisted";
+      candidate.stageStatus = {
+        ...candidate.stageStatus,
+        interview: "-",
+        hr: "ongoing"
+      };
+      await candidate.save();
+
+    }
+
     res.status(201).json({
       messsage: "email sent successfully",
       success: true,

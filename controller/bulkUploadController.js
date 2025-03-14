@@ -1,5 +1,5 @@
 const BulkUpload = require("../models/uploadedFilesModel");
-const Jobs = require("../models/jobModel");
+const Jobs = require("../models/jobModel")
 const azure = require("../config/azureStorage");
 const { v4: uuidv4 } = require("uuid");
 
@@ -9,7 +9,6 @@ const addFiles = async (req, res) => {
   const userId = req.user._id;
   try {
     const uploadedFile = await BulkUpload.findOne({ jobId });
-
     const job = await Jobs.findOne({ _id: jobId });
     const userId = job.userId.toString();
 
@@ -27,7 +26,9 @@ const addFiles = async (req, res) => {
       message: "Success",
       status: true,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 const initiateAddFiles = async (req, res) => {

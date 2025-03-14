@@ -8,6 +8,14 @@ const interviewRoundSchema = new mongoose.Schema({
     type: mongoose.SchemaTypes.ObjectId,
     ref: "job",
   },
+  low: {
+    type: Number,
+    default: 0
+  },
+  high: {
+    type: Number,
+    default: 0
+  },
   codingRoundDifficulty: {
     type: String,
   },

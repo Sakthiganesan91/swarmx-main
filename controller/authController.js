@@ -3,7 +3,7 @@ const Company = require("../models/companyModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const Cryptr = require("cryptr");
-const { mailOptions, transport } = require("../config/mailerTransport");
+const { transport } = require("../config/mailerTransport");
 const cryptr = new Cryptr(process.env.SECRET_KEY);
 
 const createToken = (_id) => {

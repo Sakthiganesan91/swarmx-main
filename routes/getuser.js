@@ -9,7 +9,7 @@ const upload = multer({
   storage: storage,
 });
 
-//routes.use(requireAuth);
+routes.use(requireAuth);
 routes.get("/users/:id", getuserController.getUserById);
 
 const cpUpload = upload.fields([
